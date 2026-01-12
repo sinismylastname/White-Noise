@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbwc4dmpgj46g"]
+
+[ext_resource type="Script" uid="uid://lqso1yvop8fl" path="res://scenes/player.gd" id="1_3vyb7"]
+[ext_resource type="PackedScene" uid="uid://ckehj4vnjt3nn" path="res://scenes/player_ui.tscn" id="2_g2els"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_3vyb7")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0572908, -0.27890843)
+current = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
+light_energy = 2.0
+spot_range = 7.7227364
+spot_angle = 56.33367
+
+[node name="PlayerUI" parent="Camera3D" instance=ExtResource("2_g2els")]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6008111, 0)
+radius = 0.32666016
+height = 1.1591797
+
+[connection signal="pressed" from="Camera3D/PlayerUI/Right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="Camera3D/PlayerUI/Left" to="." method="_on_left_pressed"]
+
+[editable path="Camera3D/PlayerUI"]
