@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bl085isvh8unh"]
+
+[node name="SHADER" type="ColorRect"]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0)

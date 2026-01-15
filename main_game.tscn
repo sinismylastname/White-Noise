@@ -37,8 +37,8 @@ visible = false
 shadow_enabled = true
 
 [node name="floor" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13357544, 0)
-size = Vector3(10.725586, 0.03765869, 12.024414)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9058228, -0.13357544, 4.0938873)
+size = Vector3(37.25818, 0.03765869, 31.104584)
 
 [node name="Player" parent="." instance=ExtResource("1_1oj5k")]
 
