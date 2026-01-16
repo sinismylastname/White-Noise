@@ -10,7 +10,9 @@ var max_velocity_z: float = 20.0
 var able_to_turn: bool = true
 var able_to_move:bool = true
 var current_angle: float
-
+var bob_speed: float = 1
+var bob_amplitude: float = 0.05
+var bob_timer: float
 
 func _init() -> void:
 	pass
@@ -41,7 +43,7 @@ func handle_movement() -> void:
 	if angle == 90 or angle == 270:
 		able_to_move = false
 		return
-	elif angle == 0 or angle == 360:
+	elif angle == 0 or angle == 180:
 		able_to_move = true
 		
 	if not able_to_move:
@@ -72,24 +74,27 @@ func handle_camera():
 		camera.position.z = clamp(lerp(camera.position.x, offset_x, 0.05), -2, 2)
 		camera.rotation_degrees.z = lerp(camera.rotation_degrees.z, -offset_x * 1.5, 0.05)
 		camera.rotation_degrees.x = lerp(camera.rotation_degrees.x, offset_y, 0.05)
-
 		
+		flashlight.rotation_degrees.y = lerp(flashlight.rotation_degrees.y, -offset_x * 5, 0.05)
+		flashlight.rotation_degrees.x = lerp(flashlight.rotation_degrees.x, offset_y * 5, 0.05)
+
 	elif able_to_move:
 		camera.position.z = lerpf(camera.position.x, 0, 0.05)
 		camera.rotation_degrees.z = lerpf(camera.rotation_degrees.z, 0, 0.05)
 		camera.rotation_degrees.x = lerpf(camera.rotation_degrees.x, 0, 0.05)
-
-	
+		
+		flashlight.rotation_degrees.y = lerpf(flashlight.rotation_degrees.y, 0, 0.05)
+		flashlight.rotation_degrees.x = lerpf(camera.rotation_degrees.x, 0, 0.05)
 		
 
-		
-	
+
 func _process(delta: float) -> void:
 	if velocity.z != 0:
 		velocity.z = lerp(velocity.z, 0.0, 0.05)
 	elif abs(velocity.z) >= max_velocity_z:
 		velocity.z = max_velocity_z
 	
+	idle_camera(delta)
 	handle_camera()
 	move_and_slide()
 	
@@ -108,3 +113,8 @@ func animate_rotation() -> void:
 	tween.tween_property(camera, "rotation_degrees:y", target_rotation_y, 0.4).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
 	able_to_turn = true
+
+func idle_camera(delta) -> void:
+	bob_timer += delta * bob_speed
+	camera.rotation_degrees.x += (sin(bob_timer) * bob_amplitude)
+	pass
